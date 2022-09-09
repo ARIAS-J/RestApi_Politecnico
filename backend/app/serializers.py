@@ -6,7 +6,7 @@ class AlumnoSerializer(serializers.ModelSerializer):
     updated_at = serializers.DateTimeField(format="%d-%m-%Y %H:%M:%S")
     class Meta:
         model=Alumno
-        fields=('id', 'matricula', 'nombre', 'apellido', 'edad', 'created_at', 'updated_at')
+        fields=('id', 'matricula', 'nombre', 'apellido', 'edad', 'id_grado', 'created_at', 'updated_at')
         
         # extra_kwargs = {}
 
@@ -36,7 +36,7 @@ class MateriaSerializer(serializers.ModelSerializer):
     updated_at = serializers.DateTimeField(format="%d-%m-%Y %H:%M:%S")
     class Meta:
         model=Materia
-        fields=('id', 'nombre_materia', 'id_profesor', 'created_at', 'updated_at')
+        fields=('id', 'nombre_materia', 'id_profesor', 'id_grado' 'created_at', 'updated_at')
         
         # extra_kwargs = {}
 
@@ -46,7 +46,7 @@ class GradoSerializer(serializers.ModelSerializer):
     updated_at = serializers.DateTimeField(format="%d-%m-%Y %H:%M:%S")
     class Meta:
         model=Grado
-        fields=('id', 'grado', 'id_materia', 'id_alumno', 'created_at', 'updated_at')
+        fields=('id', 'grado', 'created_at', 'updated_at')
         
         # extra_kwargs = {}
 
