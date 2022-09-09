@@ -3,13 +3,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Alumno(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    matricula = models.CharField(max_length=8)
+    matricula = models.CharField(max_length=8, unique=True)
     nombre = models.CharField(max_length=35)
     apellido = models.CharField(max_length=35)
-    edad = models.IntegerField(validators=[MinValueValidator(14)])
+    edad = models.IntegerField(validators=[MinValueValidator(14), MaxValueValidator(20)])
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    update_at = models.DateTimeField(auto_now=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     
     def __str__(self):
         return f"Matricula: {self.Matricula} Alumno:{self.nombre} {self.apellido}"
@@ -24,7 +24,7 @@ class Profesor(models.Model):
     is_active = models.BooleanField(default=True)
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    update_at = models.DateTimeField(auto_now=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     deleted_at = models.DateTimeField(null = True)
     
     def __str__(self):
@@ -39,7 +39,7 @@ class Aula(models.Model):
     id_grado = models.ForeignKey("Grado", on_delete=models.CASCADE, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    update_at = models.DateTimeField(auto_now=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return f"Seccion de aula: {self.seccion} Capacidad:{self.capacidad}/30"
@@ -53,7 +53,7 @@ class Materia(models.Model):
     id_profesor = models.ForeignKey("Profesor", on_delete=models.CASCADE, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    update_at = models.DateTimeField(auto_now=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     
     def __str__(self):
         return f"Materia: {self.nombre_materia}"
@@ -66,6 +66,9 @@ class Grado(models.Model):
     #Relationship
     id_materia = models.ForeignKey("Materia", on_delete=models.CASCADE, null=True, blank=True)
     id_alumno = models.ForeignKey("Alumno", on_delete=models.CASCADE, null=True, blank=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     
     def __str__(self):
         return f"Grado: {self.grado}"
@@ -82,4 +85,4 @@ class Turno(models.Model):
     id_aula = models.ForeignKey("Aula", on_delete=models.CASCADE, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    update_at = models.DateTimeField(auto_now=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
