@@ -6,7 +6,7 @@ class AlumnoSerializer(serializers.ModelSerializer):
     updated_at = serializers.DateTimeField(format="%d-%m-%Y %H:%M:%S")
     class Meta:
         model=Alumno
-        fields=('id', 'matricula' 'nombre', 'apellido', 'edad', 'created_at', 'updated_at')
+        fields=('id', 'matricula', 'nombre', 'apellido', 'edad', 'created_at', 'updated_at')
         
         # extra_kwargs = {}
 
