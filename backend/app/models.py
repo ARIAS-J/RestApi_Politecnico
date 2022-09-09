@@ -18,7 +18,7 @@ class Profesor(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     nombre = models.CharField(max_length=35)
     apellido = models.CharField(max_length=35)
-    edad = models.IntegerField(validators=[MinValueValidator(21)])
+    edad = models.IntegerField(validators=[MinValueValidator(21), MaxValueValidator(60)])
     numero_telefonico = models.CharField(max_length=35)
 
     is_active = models.BooleanField(default=True)
