@@ -8,6 +8,9 @@ class Alumno(models.Model):
     apellido = models.CharField(max_length=35)
     edad = models.IntegerField(validators=[MinValueValidator(14), MaxValueValidator(20)])
     
+    #Relationship
+    id_grado = models.ForeignKey("Grado", on_delete=models.CASCADE, null=True, blank=True)
+    
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
@@ -51,6 +54,7 @@ class Materia(models.Model):
     
     #Relationship
     id_profesor = models.ForeignKey("Profesor", on_delete=models.CASCADE, null=True, blank=True)
+    id_grado = models.ForeignKey("Grado", on_delete=models.CASCADE, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -62,10 +66,6 @@ class Materia(models.Model):
 class Grado(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     grado = models.CharField(max_length=20)
-    
-    #Relationship
-    id_materia = models.ForeignKey("Materia", on_delete=models.CASCADE, null=True, blank=True)
-    id_alumno = models.ForeignKey("Alumno", on_delete=models.CASCADE, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
