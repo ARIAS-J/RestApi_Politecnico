@@ -6,7 +6,7 @@ class Alumno(models.Model):
     matricula = models.CharField(max_length=8)
     nombre = models.CharField(max_length=35)
     apellido = models.CharField(max_length=35)
-    edad = models.IntegerField(validators=MinValueValidator(14))
+    edad = models.IntegerField(validators=[MinValueValidator(14)])
     
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     update_at = models.DateTimeField(auto_now=True, null=True)
@@ -18,7 +18,7 @@ class Profesor(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
     nombre = models.CharField(max_length=35)
     apellido = models.CharField(max_length=35)
-    edad = models.IntegerField(validators=MinValueValidator(21))
+    edad = models.IntegerField(validators=[MinValueValidator(21)])
     numero_telefonico = models.CharField(max_length=35)
 
     is_active = models.BooleanField(default=True)
