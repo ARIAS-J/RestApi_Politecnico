@@ -3,19 +3,19 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Alumno(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
-    matricula = models.CharField(max_length=8, unique=True)
-    nombre = models.CharField(max_length=35)
-    apellido = models.CharField(max_length=35)
-    edad = models.IntegerField(validators=[MinValueValidator(14), MaxValueValidator(20)])
+    matricula = models.CharField(max_length=8, unique=True, null=True, blank=True)
+    nombre = models.CharField(max_length=35, blank=True)
+    apellido = models.CharField(max_length=35, blank=True)
+    edad = models.IntegerField(validators=[MinValueValidator(14), MaxValueValidator(20)], blank=True)
     
     #Relationship
-    id_aula = models.ForeignKey("Grado", on_delete=models.CASCADE, null=True, blank=True)
+    id_aula = models.ForeignKey("Aula", on_delete=models.CASCADE, null=True, blank=True)
     
-    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
     def __str__(self):
-        return f"Matricula: {self.Matricula} Alumno:{self.nombre} {self.apellido}"
+        return f"Matricula: {self.matricula} Alumno:{self.nombre} {self.apellido}"
 
 class Profesor(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
@@ -30,7 +30,7 @@ class Profesor(models.Model):
     deleted_at = models.DateTimeField(null = True, blank=True)
     
     def __str__(self):
-        return f"Docente: {self.nombre} {self.apellido} Numero Telefonico:{self.numero_telefonico}"
+        return f"Docente: {self.nombre} {self.apellido} Materia:{self.materia}"
 
 class Aula(models.Model):
     id = models.AutoField(primary_key=True, unique=True)
