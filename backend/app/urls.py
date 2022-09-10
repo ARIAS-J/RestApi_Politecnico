@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AlumnoList, AlumnoRetrieve, ProfesorList, ProfesorRetrieve, AulaList, AulaRetrieve, MateriaList, MateriaRetrieve, GradoList, GradoRetrieve, TurnoList, TurnoRetrieve
+from .views import AlumnoList, AlumnoRetrieve, AsignarAula, ProfesorList, ProfesorRetrieve, AulaList, AulaRetrieve, TurnoList, TurnoRetrieve
 
 
 urlpatterns = [
@@ -15,16 +15,11 @@ urlpatterns = [
     path('aulas/', AulaList),
     path('aulas/<str:Seccion>', AulaRetrieve),
     
-    # Materias Routes
-    path('materias/', MateriaList),
-    path('materias/<str:Nombre_Materia>', MateriaRetrieve),
-    
-    # Grados Routes
-    path('grados/', GradoList),
-    path('grados/<str:Grado>', GradoRetrieve),
-    
     # Turnos Routes
     path('turnos/', TurnoList),
     path('turnos/<int:pk>', TurnoRetrieve),
+    
+    # Asignar
+    path('asignar_aula/<int:pk>', AsignarAula),
     
 ]
