@@ -26,7 +26,7 @@ class AulaSerializer(serializers.ModelSerializer):
         model=Aula
         fields=('id', 'seccion', 'capacidad', 'created_at', 'updated_at')
         
-        # extra_kwargs = {}
+        extra_kwargs = {'seccion': {'required': False}}
 
 
 class TurnoSerializer(serializers.ModelSerializer):
