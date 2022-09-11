@@ -212,10 +212,18 @@ def TurnoList(request):
             aula_id = serializer.data['id_aula']
             
             hora_a_registrar = serializer.data['hora']
-
-            turnos_registrados = Turno.objects.filter(id_aula = aula_id)
             
-            for turno in turnos_registrados:
+            profesor_id = serializer.data['id_profesor']
+
+            turnos_registrados_aula = Turno.objects.filter(id_aula = aula_id)
+            
+            for turno in turnos_registrados_aula:
+                if hora_a_registrar == str(turno.hora):
+                    return Response({'message':'No se puede asignar el turno.'})
+
+            turnos_registrados_profesor = Turno.objects.filter(id_profesor = profesor_id)
+            
+            for turno in turnos_registrados_profesor:
                 if hora_a_registrar == str(turno.hora):
                     return Response({'message':'No se puede asignar el turno.'})
             
