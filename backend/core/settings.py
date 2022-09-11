@@ -126,3 +126,13 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ]
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        "api_key": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+        },
+    }
+}
