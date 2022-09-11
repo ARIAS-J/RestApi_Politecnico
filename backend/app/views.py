@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 
-from .models import Alumno, Grado, Materia, Profesor, Aula, Turno
-from .serializers import AlumnoSerializer, ProfesorSerializer, AulaSerializer, MateriaSerializer, GradoSerializer, TurnoSerializer
+from .models import Alumno, Profesor, Aula, Turno
+from .serializers import AlumnoSerializer, AsignarAulaSerializer, ProfesorSerializer, AulaSerializer, TurnoSerializer
 
 # Alumno Views
 
@@ -128,6 +128,7 @@ def ProfesorRetrieve(request, Nombre = None):
 @swagger_auto_schema(methods=['post'], request_body=AulaSerializer)
 @api_view(['GET', 'POST'])
 def AulaList(request):
+    array = []
     # List - Muestra Todas las aulas.
     if request.method == 'GET':
         # Queryset
@@ -149,9 +150,9 @@ def AulaList(request):
 
 @swagger_auto_schema(methods=['put'], request_body=AulaSerializer)
 @api_view(['GET','PUT', 'DELETE'])
-def AulaRetrieve(request, Seccion = None):
+def AulaRetrieve(request, pk = None):
     # Queryset - Obtiene un aula especifica.
-    aula = Aula.objects.filter(seccion = Seccion).first()
+    aula = Aula.objects.filter(id = pk).first()
     
     # Validacion
     if aula:
@@ -179,122 +180,6 @@ def AulaRetrieve(request, Seccion = None):
             return Response({'message':'Aula eliminada correctamente'}, )
 
     return Response({'message':'No se ha encontrado un aula'})
-
-
-# Materias Views
-
-@swagger_auto_schema(methods=['post'], request_body=MateriaSerializer)
-@api_view(['GET', 'POST'])
-def MateriaList(request):
-    # List - Muestra Todas las materias.
-    if request.method == 'GET':
-        # Queryset
-        materias = Materia.objects.all()
-        # Serializer
-        serializer = MateriaSerializer(materias,  many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    # Create - Crea una materia nuevo.
-    elif request.method == 'POST':
-        serializer = MateriaSerializer(data=request.data)
-        
-        # Validacion
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@swagger_auto_schema(methods=['put'], request_body=MateriaSerializer)
-@api_view(['GET','PUT', 'DELETE'])
-def MateriaRetrieve(request, Nombre_Materia = None):
-    # Queryset - Obtiene una materia especifica.
-    materia = Materia.objects.filter(nombre_materia = Nombre_Materia).first()
-    
-    # Validacion
-    if materia:
-        
-        # Retrieve - Retorna toda la informacion de la materia especificada.
-        if request.method == 'GET':
-            # Serializer
-            serializer = MateriaSerializer(materia)
-            return Response(serializer.data)
-
-        # Update - Actualiza la informacion de la materia especificada.
-        elif request.method == 'PUT':
-            # Serializer   
-            serializer = MateriaSerializer(materia, data=request.data)
-            
-            # Validacion
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors)
-
-        # Delete - Elimina la materia especificado
-        elif request.method == 'DELETE':
-            materia.delete()
-            return Response({'message':'Materia eliminada correctamente'}, )
-
-    return Response({'message':'No se ha encontrado una materia'})
-
-
-# Grados Views
-
-@swagger_auto_schema(methods=['post'], request_body=GradoSerializer)
-@api_view(['GET', 'POST'])
-def GradoList(request):
-    # List - Muestra Todos los grados.
-    if request.method == 'GET':
-        # Queryset
-        grados = Grado.objects.all()
-        # Serializer
-        serializer = GradoSerializer(grados,  many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    # Create - Crea un grado nuevo.
-    elif request.method == 'POST':
-        serializer = GradoSerializer(data=request.data)
-        
-        # Validacion
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-@swagger_auto_schema(methods=['put'], request_body=GradoSerializer)
-@api_view(['GET','PUT', 'DELETE'])
-def GradoRetrieve(request, Grado = None):
-    # Queryset - Obtiene un grado especifico.
-    grado = Grado.objects.filter(grado = Grado).first()
-    
-    # Validacion
-    if grado:
-        
-        # Retrieve - Retorna toda la informacion del grado especificado.
-        if request.method == 'GET':
-            # Serializer
-            serializer = GradoSerializer(grado)
-            return Response(serializer.data)
-
-        # Update - Actualiza la informacion del grado especificado.
-        elif request.method == 'PUT':
-            # Serializer   
-            serializer = GradoSerializer(grado, data=request.data)
-            
-            # Validacion
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data)
-            return Response(serializer.errors)
-
-        # Delete - Elimina el grado especificado
-        elif request.method == 'DELETE':
-            grado.delete()
-            return Response({'message':'Grado eliminado correctamente'}, )
-
-    return Response({'message':'No se ha encontrado un grado'})
 
 
 # Turnos Views
@@ -325,7 +210,7 @@ def TurnoList(request):
 @api_view(['GET','PUT', 'DELETE'])
 def TurnoRetrieve(request, pk = None):
     # Queryset - Obtiene un turno especifico.
-    turno = Grado.objects.filter(id = pk).first()
+    turno = Turno.objects.filter(id = pk).first()
     
     # Validacion
     if turno:
@@ -353,3 +238,32 @@ def TurnoRetrieve(request, pk = None):
             return Response({'message':'Turno eliminado correctamente'}, )
 
     return Response({'message':'No se ha encontrado un turno'})
+
+
+@swagger_auto_schema(methods=['put'], request_body=AsignarAulaSerializer)
+@api_view(['PUT'])
+def AsignarAula(request, pk = None):
+    alumno = Alumno.objects.filter(id = pk).first()
+
+    if not alumno: return Response({'message':'No se ha encontrado un alumno'})
+        
+    if request.method != 'PUT': return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED) 
+    
+    serializer = AlumnoSerializer(alumno, data=request.data)
+    
+    # Validacion
+    if not serializer.is_valid(): return Response(serializer.errors) 
+        
+    data = serializer.validated_data
+    
+    aula_id = data['id_aula'].id
+    
+    alumnos_registrados = Alumno.objects.filter(id_aula = aula_id).count()
+    
+    aula = AulaSerializer(Aula.objects.get(id = aula_id))
+    
+    if alumnos_registrados < aula.data['capacidad']:
+        serializer.save()
+        return Response(serializer.data, status.HTTP_200_OK)
+    else:
+        return Response({'message': 'No se pudo asignar. El aula esta completa'})
