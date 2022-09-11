@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
@@ -11,6 +12,7 @@ from .serializers import AlumnoSerializer, AsignarAulaSerializer, ProfesorSerial
 # "swagger_auto_schema" decorator Returns a path parameter schema to the user.
 @swagger_auto_schema(methods=['post'], request_body=AlumnoSerializer)
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def AlumnoList(request):
     # List - Muestra Todos los alumnos.
     if request.method == 'GET':
@@ -33,9 +35,10 @@ def AlumnoList(request):
 
 @swagger_auto_schema(methods=['put'], request_body=AlumnoSerializer)
 @api_view(['GET','PUT', 'DELETE'])
-def AlumnoRetrieve(request, pk = None):
+@permission_classes([IsAuthenticated])
+def AlumnoRetrieve(request, alumno_id = None):
     # Queryset - Obtiene un alumno especifico.
-    alumno = Alumno.objects.filter(id = pk).first()
+    alumno = Alumno.objects.filter(id = alumno_id).first()
     
     # Validacion
     if alumno:
@@ -69,6 +72,7 @@ def AlumnoRetrieve(request, pk = None):
 
 @swagger_auto_schema(methods=['post'], request_body=ProfesorSerializer)
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def ProfesorList(request):
     # List - Muestra Todos los profesores.
     if request.method == 'GET':
@@ -91,6 +95,7 @@ def ProfesorList(request):
 
 @swagger_auto_schema(methods=['put'], request_body=ProfesorSerializer)
 @api_view(['GET','PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def ProfesorRetrieve(request, Nombre = None):
     # Queryset - Obtiene un profesor especifico.
     profesor = Profesor.objects.filter(nombre = Nombre).first()
@@ -127,8 +132,8 @@ def ProfesorRetrieve(request, Nombre = None):
 
 @swagger_auto_schema(methods=['post'], request_body=AulaSerializer)
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def AulaList(request):
-    array = []
     # List - Muestra Todas las aulas.
     if request.method == 'GET':
         # Queryset
@@ -150,9 +155,10 @@ def AulaList(request):
 
 @swagger_auto_schema(methods=['put'], request_body=AulaSerializer)
 @api_view(['GET','PUT', 'DELETE'])
-def AulaRetrieve(request, pk = None):
+@permission_classes([IsAuthenticated])
+def AulaRetrieve(request, aula_id = None):
     # Queryset - Obtiene un aula especifica.
-    aula = Aula.objects.filter(id = pk).first()
+    aula = Aula.objects.filter(id = aula_id).first()
     
     # Validacion
     if aula:
@@ -186,6 +192,7 @@ def AulaRetrieve(request, pk = None):
 
 @swagger_auto_schema(methods=['post'], request_body=TurnoSerializer)
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def TurnoList(request):
     # List - Muestra Todos los turnos.
     if request.method == 'GET':
@@ -219,9 +226,10 @@ def TurnoList(request):
 
 @swagger_auto_schema(methods=['put'], request_body=TurnoSerializer)
 @api_view(['GET','PUT', 'DELETE'])
-def TurnoRetrieve(request, pk = None):
+@permission_classes([IsAuthenticated])
+def TurnoRetrieve(request, turno_id = None):
     # Queryset - Obtiene un turno especifico.
-    turno = Turno.objects.filter(id = pk).first()
+    turno = Turno.objects.filter(id = turno_id).first()
     
     # Validacion
     if turno:
@@ -250,11 +258,13 @@ def TurnoRetrieve(request, pk = None):
 
     return Response({'message':'No se ha encontrado un turno'})
 
+# Asignar Aula Views
 
 @swagger_auto_schema(methods=['put'], request_body=AsignarAulaSerializer)
 @api_view(['PUT'])
-def AsignarAula(request, pk = None):
-    alumno = Alumno.objects.filter(id = pk).first()
+@permission_classes([IsAuthenticated])
+def AsignarAula(request, alumno_id = None):
+    alumno = Alumno.objects.filter(id = alumno_id).first()
 
     if not alumno: return Response({'message':'No se ha encontrado un alumno'})
         

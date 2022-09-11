@@ -8,7 +8,6 @@ schema_view = get_schema_view(
 openapi.Info(
     title="Politecnico API",
     default_version='v1',
-    description="Test description",
 ),
 public=True,
 permission_classes=[permissions.AllowAny],
