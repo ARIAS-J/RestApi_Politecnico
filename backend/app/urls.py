@@ -13,7 +13,7 @@ urlpatterns = [
     
     # Aulas Routes
     path('aulas/', AulaList),
-    path('aulas/<str:Seccion>', AulaRetrieve),
+    path('aulas/<int:pk>', AulaRetrieve),
     
     # Turnos Routes
     path('turnos/', TurnoList),
