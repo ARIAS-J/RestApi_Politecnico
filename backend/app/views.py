@@ -201,6 +201,17 @@ def TurnoList(request):
         
         # Validacion
         if serializer.is_valid():
+            
+            aula_id = serializer.data['id_aula']
+            
+            hora_a_registrar = serializer.data['hora']
+
+            turnos_registrados = Turno.objects.filter(id_aula = aula_id)
+            
+            for turno in turnos_registrados:
+                if hora_a_registrar == str(turno.hora):
+                    return Response({'message':'No se puede asignar el turno.'})
+            
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
